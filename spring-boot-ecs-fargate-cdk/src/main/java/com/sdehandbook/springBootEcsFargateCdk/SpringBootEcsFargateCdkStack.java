@@ -1,6 +1,8 @@
 package com.sdehandbook.springBootEcsFargateCdk;
 
 import com.google.common.collect.Lists;
+import software.amazon.awscdk.core.CfnOutput;
+import software.amazon.awscdk.core.CfnOutputProps;
 import software.amazon.awscdk.core.Construct;
 import software.amazon.awscdk.core.Duration;
 import software.amazon.awscdk.core.Stack;
@@ -119,5 +121,9 @@ public class SpringBootEcsFargateCdkStack extends Stack {
                 .securityGroups(Lists.newArrayList(securityGroup))
                 .build();
         fargateService.attachToApplicationTargetGroup(applicationTargetGroup);
+
+        new CfnOutput(this, "AlbUrl", CfnOutputProps.builder()
+                .value(applicationLoadBalancer.getLoadBalancerDnsName())
+                .build());
     }
 }
